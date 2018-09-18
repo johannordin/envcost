@@ -1,0 +1,19 @@
+
+<main>
+	<Categories {categories} />
+</main>
+<style>
+main{
+	height: 100%;
+}
+</style>
+
+<script>
+	import Categories from "./Categories.html";
+	export default {
+	  components: { Categories },
+	  oncreate() {
+		  this.options.data.categories.forEach(c => c.open = window.location.hash.slice(1) === c.name);
+	  }
+	};
+</script>

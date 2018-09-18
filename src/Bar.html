@@ -1,0 +1,30 @@
+<div class="chartitem slideInDown" on:click="set({ items: items.filter(i => i !== item) })">
+	<div>{item.short}</div>
+	<div class="bar" style="width: {width}%"></div>
+</div>
+
+<style>
+  .chartitem {
+    display: flex;
+    margin: 10px;
+    font-size: 5vw;
+  }
+  .bar {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-left: 5px;
+  }
+</style>
+	<script>
+  export default {
+    data() {
+      return {
+        open: false,
+        items: []
+      };
+    },
+    computed: {
+      width: ({ max, item }) => (item.value / max) * 100
+    }
+  };
+</script>

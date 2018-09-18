@@ -1,0 +1,58 @@
+<div class="header" on:click="set({ open: !open })">
+	{category.short}
+</div>
+
+{#if open}
+<div class="container slideInDown">
+	{#each category.items as item}
+	<div class="subitems" on:click="add(item, items)">{item.short}</div>
+	{/each}
+</div>
+<div class="chart">
+	{#each items as item}
+	<Bar {item} max={max} /> {/each}
+</div>
+{/if}
+<style>
+						.header {
+						  margin: 10vw;
+						  text-align: center;
+						  font-size: 20vw;
+						}
+
+						.container {
+						  display: flex;
+						  justify-content: space-evenly;
+						}
+
+						.subitems {
+						  margin: 1vw;
+						  text-align: center;
+						  font-size: 10vw;
+						}
+						.chart {
+						  display: flex;
+						  flex-direction: column;
+						}
+</style>
+	<script>
+  import Bar from "./Bar.html";
+  export default {
+    components: { Bar },
+    data() {
+      return {
+        open: false,
+        items: []
+      };
+    },
+    methods: {
+      add(item, items) {
+        if(items.includes(item)) return;
+        this.set({ items: [...items, item] });
+      }
+    },
+    computed: {
+      max: ({ items }) => items.map(i => i.value).sort()[items.length - 1]
+    }
+  };
+</script>
