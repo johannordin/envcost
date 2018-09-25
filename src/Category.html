@@ -1,43 +1,51 @@
-<div class="header" on:click="set({ open: !open })">
+<div transition:slide class="header" on:click="set({ open: !open })">
 	{category.short}
 </div>
-
-{#if open}
-<div class="container slideInDown">
-	{#each category.items as item}
-	<div class="subitems" on:click="add(item, items)">{item.short}</div>
+<!-- 
+{#if open} -->
+<div transition:slide class="container slideInDown">
+	{#each category.items.filter(x => !items.includes(x)) as item}
+	<div transition:fade class="subitems" on:click="add(item, items)">{item.short}</div>
 	{/each}
 </div>
 <div class="chart">
 	{#each items as item}
-	<Bar {item} max={max} /> {/each}
+	<div on:click="remove(item, items)">
+		<Bar {item} {max} />
+	</div> {/each}
 </div>
-{/if}
+<!-- {/if} -->
 <style>
-						.header {
-						  margin: 10vw;
-						  text-align: center;
-						  font-size: 20vw;
-						}
+  .header {
+    margin: 10vw;
+    text-align: center;
+    font-size: 15vw;
+  }
 
-						.container {
-						  display: flex;
-						  justify-content: space-evenly;
-						}
+  .container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-flow: row wrap;
+    align-content: flex-end;
+  }
 
-						.subitems {
-						  margin: 1vw;
-						  text-align: center;
-						  font-size: 10vw;
-						}
-						.chart {
-						  display: flex;
-						  flex-direction: column;
-						}
+  .subitems {
+    margin: 1vw;
+    text-align: center;
+    font-size: 10vw;
+  }
+  .chart {
+    display: flex;
+    flex-direction: column;
+  }
 </style>
 	<script>
+  import { slide, fade } from "svelte-transitions";
+
   import Bar from "./Bar.html";
   export default {
+    transitions: { slide, fade },
     components: { Bar },
     data() {
       return {
@@ -47,12 +55,16 @@
     },
     methods: {
       add(item, items) {
-        if(items.includes(item)) return;
+        if (items.includes(item)) return;
         this.set({ items: [...items, item] });
+      },
+      remove(item, items) {
+        items.splice(items.indexOf(item), 1);
+        this.set({ items });
       }
     },
     computed: {
-      max: ({ items }) => items.map(i => i.value).sort()[items.length - 1]
+      max: ({ items }) => Math.max(...items.map(i => i.value))
     }
   };
 </script>

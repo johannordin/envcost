@@ -1,4 +1,4 @@
-<div class="chartitem slideInDown" on:click="set({ items: items.filter(i => i !== item) })">
+<div transition:slide class="chartitem">
 	<div>{item.short}</div>
 	<div class="bar" style="width: {width}%"></div>
 </div>
@@ -7,16 +7,19 @@
   .chartitem {
     display: flex;
     margin: 10px;
-    font-size: 5vw;
+    font-size: 10vw;
   }
   .bar {
-    border: 1px solid lightgray;
+    background: #82d4bb;
     border-radius: 5px;
-    margin-left: 5px;
+    margin: 5px;
   }
 </style>
 	<script>
+  import { slide } from "svelte-transitions";
+
   export default {
+    transitions: { slide },
     data() {
       return {
         open: false,

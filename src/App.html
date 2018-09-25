@@ -1,19 +1,22 @@
-
-<main>
+<main transition:slide>
 	<Categories {categories} />
 </main>
 <style>
-main{
-	height: 100%;
-}
+	main {
+	  height: 100%;
+	}
 </style>
 
 <script>
+	import { slide } from "svelte-transitions";
 	import Categories from "./Categories.html";
 	export default {
+	  transitions: { slide },
 	  components: { Categories },
 	  oncreate() {
-		  this.options.data.categories.forEach(c => c.open = window.location.hash.slice(1) === c.name);
+	    this.options.data.categories.forEach(
+	      c => (c.open = window.location.hash.slice(1) === c.name)
+	    );
 	  }
 	};
 </script>

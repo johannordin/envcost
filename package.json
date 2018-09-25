@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "navaid": "^1.0.0",
-    "rollup-plugin-copy": "^0.2.3"
+    "rollup-plugin-copy": "^0.2.3",
+    "svelte-transitions": "^1.2.0"
   }
 }
